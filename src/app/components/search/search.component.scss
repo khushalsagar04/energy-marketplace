@@ -1,0 +1,185 @@
+.search-bar {
+  position: relative;
+  background: white;
+  display: inline-block;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  box-sizing: border-box;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1rem;
+  gap: 2rem;
+  width: 28.5rem;
+  height: 4.03rem;
+  background: #ffffff;
+  border: 0.085rem solid #8e8e8e;
+  border-radius: 0.34rem;
+  flex: none;
+  flex-grow: 0;
+  input {
+    display: inline-flex;
+    border: none;
+    padding-left: 0.45rem;
+    outline: none;
+  }
+}
+
+.search-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 1.25rem 0.625rem;
+  gap: 0.625rem;
+  width: 28.5rem;
+  height: 4rem;
+  background: #ffb81c;
+  border-radius: 0.25rem;
+  flex: none;
+  order: 1;
+  align-self: stretch;
+  flex-grow: 0;
+}
+.img {
+  background-color: #f8fffc;
+  background-image: url(../../../assets/image/laptop-breakpoint.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 100%;
+  height: 72.8vh;
+  background-position: bottom right;
+}
+
+.outer-div {
+  padding: 3%;
+  width: fit-content;
+}
+
+.inner-div {
+  color: #232122;
+}
+
+.top-text {
+  margin-bottom: 1.5rem;
+}
+
+.middle-text {
+  margin-bottom: 4rem;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #28519e;
+  height: fit-content;
+  width: 100;
+  h3 {
+    font-size: 1rem !important;
+  }
+}
+
+.inner-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5%;
+}
+
+.icon {
+  margin-right: 0.625rem;
+}
+
+.text {
+  justify-content: center;
+  color: #f8fffc;
+}
+
+.bold-text {
+  font-weight: 600;
+  font-size: 1rem !important;
+  line-height: 134.52%;
+}
+
+.info {
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 134.52%;
+  margin-bottom: 0;
+}
+
+.inner-text {
+  margin-bottom: 0;
+}
+
+@media (max-width: 480px) {
+  .img {
+    background-image: url(../../../assets/image/phone-breakpoint.svg);
+  }
+
+  .text1 {
+    font-weight: 700;
+    font-size: 1.75rem;
+    line-height: 2.125rem;
+  }
+
+  .text2 {
+    font-weight: 500;
+    font-size: 1.125rem;
+    line-height: 1.375rem;
+  }
+
+  .text3 {
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1.0625rem;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .img {
+    background-image: url(../../../assets/image/tab-breakpoint.svg);
+  }
+
+  .text1 {
+    font-weight: 700;
+    font-size: 2.5rem;
+    line-height: 3rem;
+  }
+
+  .text2 {
+    font-weight: 500;
+    font-size: 1.4375rem;
+    line-height: 1.75rem;
+  }
+
+  .text3 {
+    font-weight: 500;
+    font-size: 1.125rem;
+    line-height: 1.375rem;
+  }
+}
+
+@media (min-width: 769px) {
+  .img {
+    background-image: url(../../../assets/image/laptop-breakpoint.svg);
+  }
+
+  .text1 {
+    font-weight: 700;
+    font-size: 2.5rem;
+    line-height: 3rem;
+  }
+
+  .text2 {
+    font-weight: 500;
+    font-size: 1.25rem;
+    line-height: 1.5rem;
+  }
+
+  .text3 {
+    font-weight: 500;
+    font-size: 1rem;
+    line-height: 1.1875rem;
+  }
+}

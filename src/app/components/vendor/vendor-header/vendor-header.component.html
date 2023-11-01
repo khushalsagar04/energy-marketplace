@@ -1,0 +1,89 @@
+<nav class="navbar navbar-fixed-top">
+  <div class="d-flex">
+    <a class="navbar-brand" href="/vendor">
+      <span>
+        <img
+          src="../../../../assets/logos/marketplace/CG-Logomark 1.svg"
+          alt="CG Infinity"
+        />
+      </span>
+      <span>
+        <img
+          src="../../../../assets/logos/marketplace/Line 9.svg"
+          alt="CG Infinity"
+        />
+      </span>
+
+      <span>
+        <img
+          src="../../../../assets/logos/marketplace/Energy Market Place.svg"
+          alt="CG Infinity"
+        />
+      </span>
+    </a>
+    <ul>
+      <li
+        class="active-route"
+        (click)="navigateToDashboard()"
+        [ngClass]="
+          activeTab == 'dashboard' ? ' active-route' : 'deactive-route'
+        "
+      >
+        Dashboard
+      </li>
+      <li
+        (click)="navigateToManagePlans()"
+        [ngClass]="
+          activeTab == 'manageplan' ? ' active-route' : 'deactive-route'
+        "
+      >
+        Manage Plan
+      </li>
+    </ul>
+  </div>
+  <!-- <div class="user_menu">
+    <div class="avatar dropdown">
+      <img
+        class="avatar__image"
+        src="../../../../assets/icons/VectoravatarDemo.svg"
+        alt="avatar"
+      />
+      <img
+        src="../../../../assets/icons/VectordownArrow-white.svg"
+        alt="options"
+      />
+    </div>
+    
+  </div> -->
+  <div class="dropdown">
+    <button
+      class="btn dropdown-toggle p-0 m-0"
+      type="button"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+    >
+      <div class="avatar dropdown">
+        <img
+          class="avatar__image"
+          src="../../../../assets/icons/VectoravatarDemo.svg"
+          alt="avatar"
+        />
+        <img
+          src="../../../../assets/icons/VectordownArrow-white.svg"
+          alt="options"
+        />
+      </div>
+    </button>
+    <ul class="dropdown-menu">
+      <li>
+        <a class="dropdown-item">{{ userEmail }}</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="#">Account Settings</a>
+      </li>
+      <li>
+        <a class="dropdown-item logout" (click)="logout()">Logout</a>
+      </li>
+    </ul>
+  </div>
+</nav>

@@ -1,0 +1,586 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3" style="padding-left: 0">
+      <!-- Side-bar started -->
+      <div class="side-nav d-flex flex-column p-4">
+        <ul class="nav nav-pills flex-column mb-auto">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page">
+              <div class="title-text">
+                <p>Zipcode</p>
+              </div>
+              <div class="search-bar">
+                <input
+                  type="text"
+                  class="search-bar"
+                  [(ngModel)]="pinCode"
+                  (keydown.enter)="getPlanDetails()"
+                />
+              </div>
+            </a>
+          </li>
+          <li>
+            <svg class="bi me-2" width="16" height="16"></svg>
+            <table>
+              <tr>
+                <td class="title-text">
+                  <img
+                    src="../../../assets/icons/Vectorfilter.svg"
+                    class="icon"
+                  />
+                  Filter
+                </td>
+                <td class="sub-title-text" (click)="clearAll()">Clear All</td>
+              </tr>
+            </table>
+
+            <table class="tbl-2">
+              <tr>
+                <th class="title-text-2">Usage</th>
+                <th class="sub-title-text-2">Clear</th>
+              </tr>
+              <tr>
+                <td class="title-text-2">Show All</td>
+                <td class="sub-title-text-2">
+                  <input class="form-check-input" type="checkbox" />
+                </td>
+              </tr>
+              <tr>
+                <td class="title-text-2">500 kWh</td>
+                <td class="sub-title-text-2">
+                  <input class="form-check-input" type="checkbox" />
+                </td>
+              </tr>
+              <tr>
+                <td class="title-text-2">2000 kWh</td>
+                <td class="sub-title-text-2"><input type="checkbox" /></td>
+              </tr>
+              <tr>
+                <td class="title-text-2">1000 kWh</td>
+                <td class="sub-title-text-2"><input type="checkbox" /></td>
+              </tr>
+            </table>
+
+            <table
+              class="tbl-2"
+              [ngClass]="{ deactiveText: providerFilterActive }"
+            >
+              <tr [ngClass]="">
+                <th>Term Length</th>
+                <th
+                  class="sub-title-text"
+                  [ngClass]="{ 'sub-title-text-2-active': termFilterActive }"
+                  (click)="clearTerm()"
+                >
+                  Clear
+                </th>
+              </tr>
+              <tr>
+                <td>Show All</td>
+                <td class="sub-title-text-2">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    [(ngModel)]="showAll1"
+                    [checked]="{showAll1}"
+                    (change)="toggleAll(termLength, $event)"
+                    (click)="getPlanDetails()"
+                  />
+                </td>
+              </tr>
+              <tr *ngFor="let termLengths of termLength">
+                <td>{{ termLengths.termLength }} Months</td>
+                <td class="sub-title-text-2">
+                  <fieldset>
+                    <input
+                      type="checkbox"
+                      [value]="termLengths.termLength"
+                      [checked]="termLengths.isSelected"
+                      (change)="isTermLength(termLengths.termLength, $event)"
+                    />
+                  </fieldset>
+                </td>
+              </tr>
+            </table>
+
+            <table class="tbl-2">
+              <tr>
+                <th [ngClass]="{ deactiveText: termFilterActive }">Provider</th>
+                <th
+                  (click)="clearProvider()"
+                  class="sub-title-text"
+                  [ngClass]="{
+                    'sub-title-text-2-active': providerFilterActive
+                  }"
+                >
+                  Clear
+                </th>
+              </tr>
+              <tr>
+                <td [ngClass]="{ deactiveText: termFilterActive }">Show All</td>
+                <td class="sub-title-text-2">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    [(ngModel)]="showAll2"
+                    [checked]="{showAll2}"
+                    (change)="toggleAll(providerFilter, $event)"
+                    (click)="getPlanDetails()"
+                  />
+                </td>
+              </tr>
+              <tr *ngFor="let providerNames of providerFilter">
+                <td [ngClass]="{ deactiveText: termFilterActive }">
+                  {{ providerNames.providerName }}
+                </td>
+                <td class="sub-title-text-2">
+                  <fieldset>
+                    <input
+                      type="checkbox"
+                      [value]="providerNames.providerName"
+                      [checked]="providerNames.isSelected"
+                      (change)="isProvider(providerNames.providerName, $event)"
+                    />
+                  </fieldset>
+                </td>
+              </tr>
+            </table>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Top Filters -->
+
+    <div class="col-md-9">
+      <table>
+        <tr>
+          <div class="container-fluid container-sm">
+            <div class="row top-bar">
+              <div class="col-12 d-flex justify-content-between">
+                <div class="tick-box">
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="inlineCheckbox1"
+                      value="option1"
+                    />
+                    <label class="form-check-label" for="inlineCheckbox1">
+                      <div class="content">
+                        <div class="icon">
+                          <img
+                            src="../../../assets/icons/Vectorlock_icon.svg"
+                            alt=""
+                          />
+                        </div>
+                        <div class="text">
+                          <p>Locked Rate</p>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="inlineCheckbox2"
+                      value="option2"
+                    />
+                    <label class="form-check-label" for="inlineCheckbox2">
+                      <div class="content">
+                        <div class="icon">
+                          <img
+                            src="../../../assets/icons/credit-card.svg"
+                            alt=""
+                          />
+                        </div>
+                        <div class="text">
+                          <p>Poor Credit Score</p>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="inlineCheckbox3"
+                      value="option3"
+                    />
+                    <label class="form-check-label" for="inlineCheckbox3">
+                      <div class="content">
+                        <div class="icon">
+                          <img
+                            src="../../../assets/icons/Vectorgreen_leaf.svg"
+                            alt=""
+                          />
+                        </div>
+                        <div class="text">
+                          <p>100% Green Energy</p>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="sort">
+                  <div class="dropdown">
+                    <button
+                      class="btn btn-secondary dropdown-toggle"
+                      type="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      Sort By: {{ dropDownText }}
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li>
+                        <a class="dropdown-item" (click)="sortByMostPopular()"
+                          >Most Popular</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item"
+                          (click)="sortByPriceLowToHigh()"
+                          >Price: Low To High</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item"
+                          (click)="sortByPriceHighToLow()"
+                          >Price: High To Low</a
+                        >
+                      </li>
+                      <li>
+                        <a class="dropdown-item" (click)="sortByNewest()"
+                          >Newest Plans</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </tr>
+
+        <!-- Price Card -->
+        <tr>
+          <div class="container-sm" style="margin-top: 1rem">
+            <table>
+              <tr *ngFor="let item of displayData1; let i = index">
+                <div class="container-fluid p-1 card-style">
+                  <div class="col-12">
+                    <div class="row">
+                      <div
+                        class="upper-tag"
+                        [style.display]="item.isFixed ? 'none' : 'flex'"
+                      >
+                        <p>Simple, Easy Fixed Rate</p>
+                      </div>
+                      <div class="col-md-3 p-3 providerImage">
+                        <img
+                          alt="Image Preview"
+                          src="{{ item.providerImageUrl }}"
+                          class="img-thumbnail p-3"
+                        />
+                      </div>
+                      <div class="col-9 m-0">
+                        <div class="d-flex flex-column top-text">
+                          <div class="text-puct m-0">
+                            <p>PUCT# {{ item.puc }}</p>
+                          </div>
+                          <div class="text-providerName">
+                            <p>{{ item.providerName }}</p>
+                          </div>
+                          <blockquote class="blockquote">
+                            <p class="mb-0 text-description">
+                              {{ item.description }}
+                            </p>
+                          </blockquote>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="d-flex flex-row row-component">
+                      <div class="p-3 flex-fill text-center">
+                        <p class="row-component-h">
+                          {{ item.termLength }} Month
+                        </p>
+                        <p class="row-component-b">Term Length</p>
+                      </div>
+                      <div class="divider"></div>
+                      <div class="p-3 flex-fill text-center">
+                        <p class="row-component-h">${{ item.pricePer1000 }}</p>
+                        <p class="row-component-b">1000 kWh usage*</p>
+                      </div>
+                      <div class="divider"></div>
+
+                      <div class="p-3 flex-fill text-center">
+                        <p class="row-component-h">
+                          ${{ item.earlyTerminationFee }}
+                        </p>
+                        <p class="row-component-b">Early Termination Fee</p>
+                      </div>
+                      <div class="divider"></div>
+
+                      <div class="p-3 flex-fill text-center">
+                        <p>
+                          <img
+                            class="icon"
+                            src="../../../assets/icons/Vectorlock_icon.svg"
+                            alt="lock_image"
+                          />
+                          {{ item.termType }} Rate
+                        </p>
+                        <p>
+                          <img
+                            class="icon"
+                            src="../../../assets/icons/Vectorgreen_leaf.svg"
+                          />
+                          {{ item.renewalPercentage }}% Green Energy
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="view-details">
+                          <div
+                            class="accordion accordion-flush"
+                            id="accordionExample"
+                          >
+                            <div class="accordion-item">
+                              <!-- <div *ngIf="testinghiding === i && viewDetailsOpen"> -->
+                              <div *ngIf="item.show">
+                                <div class="accordion-body">
+                                  <div class="container-fluid footer">
+                                    <div class="row line1">
+                                      <div class="perks-info">
+                                        <p>Plan Details</p>
+                                      </div>
+                                    </div>
+
+                                    <div class="row">
+                                      <div>
+                                        <p class="strong-text">
+                                          Plan Information:
+                                        </p>
+                                      </div>
+                                      <div class="row">
+                                        <div class="perks">
+                                          <div
+                                            class="perks-info"
+                                            [style.display]="
+                                              item.isHiddenFee ? 'none' : 'flex'
+                                            "
+                                          >
+                                            <div class="icon">
+                                              <img
+                                                src="../../../assets/icons/hidden_fee.svg"
+                                                alt=""
+                                              />
+                                            </div>
+                                            <div class="text">
+                                              <p class="m-0">No Hidden Fees</p>
+                                            </div>
+                                          </div>
+                                          <div class="perks-info">
+                                            <div class="icon">
+                                              <img
+                                                src="../../../assets/icons/truck-delivery.svg"
+                                                alt=""
+                                              />
+                                            </div>
+                                            <div class="text">
+                                              <p class="m-0">
+                                                {{
+                                                  item.isDeliveryCharges
+                                                    ? "Includes Delivery Charges"
+                                                    : "No Delivery Charges"
+                                                }}
+                                              </p>
+                                            </div>
+                                          </div>
+                                          <div class="perks-info">
+                                            <div class="icon">
+                                              <img
+                                                src="../../../assets/icons/discount.svg"
+                                                alt=""
+                                              />
+                                            </div>
+                                            <div class="text">
+                                              <p class="m-0">
+                                                {{
+                                                  item.isDiscount
+                                                    ? "Discounts Included"
+                                                    : "No Discounts"
+                                                }}
+                                              </p>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div>
+                                      <ul class="text-description">
+                                        <li>
+                                          {{ item.planInfoDescription }}
+                                        </li>
+                                      </ul>
+                                    </div>
+
+                                    <div class="strong-text">
+                                      <div>
+                                        <p>Plan Documents:</p>
+                                      </div>
+                                    </div>
+
+                                    <div class="row line-5">
+                                      <div class="downloadable-files">
+                                        <div class="file">
+                                          <a
+                                            href="{{ item.factsUrl }}"
+                                            target="_blank"
+                                          >
+                                            <button
+                                              type="button"
+                                              class="newFile"
+                                            >
+                                              <div class="icon">
+                                                <img
+                                                  src="../../../assets/icons/pdf-icon.svg"
+                                                  alt=""
+                                                />
+                                              </div>
+                                              <div class="text">
+                                                <p>Electricity Fact Label</p>
+                                              </div>
+                                              <div class="icon">
+                                                <img
+                                                  src="../../../assets/icons/download_icon.svg"
+                                                  alt=""
+                                                />
+                                              </div>
+                                            </button>
+                                          </a>
+                                        </div>
+
+                                        <div class="file">
+                                          <a
+                                            href="{{ item.termsUrl }}"
+                                            target="_blank"
+                                          >
+                                            <button
+                                              type="button"
+                                              class="newFile"
+                                            >
+                                              <div class="icon">
+                                                <img
+                                                  src="../../../assets/icons/pdf-icon.svg"
+                                                  alt=""
+                                                />
+                                              </div>
+                                              <div class="text">
+                                                <p>Term of Service</p>
+                                              </div>
+                                              <div class="icon">
+                                                <img
+                                                  src="../../../assets/icons/download_icon.svg"
+                                                  alt=""
+                                                />
+                                              </div>
+                                            </button>
+                                          </a>
+                                        </div>
+
+                                        <div class="file">
+                                          <a
+                                            href="{{ item.yracUrl }}"
+                                            target="_blank"
+                                          >
+                                            <button
+                                              type="button"
+                                              class="newFile"
+                                            >
+                                              <div class="icon">
+                                                <img
+                                                  src="../../../assets/icons/pdf-icon.svg"
+                                                  alt=""
+                                                />
+                                              </div>
+                                              <div class="text">
+                                                <p>YRAC</p>
+                                              </div>
+                                              <div class="icon">
+                                                <img
+                                                  src="../../../assets/icons/download_icon.svg"
+                                                  alt=""
+                                                />
+                                              </div>
+                                            </button>
+                                          </a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row viewDetailsPanel">
+                                <div class="d-flex justify-content-between">
+                                  <div
+                                    style="display: flex"
+                                    (click)="toggleCollapsed(item)"
+                                  >
+                                    <p
+                                      class="accordion-button collapsed click"
+                                      id="clicked{{ item.planId }}"
+                                      style="outline: none"
+                                    >
+                                      {{ btnTxt }}
+                                    </p>
+                                    <div class="arrow">
+                                      <img
+                                        id="click{{ item.planId }}"
+                                        src="../../../assets/icons/down-arrow.svg
+                                      "
+                                        alt=""
+                                      />
+                                      <img id="click{{ item.planId }}" alt="" />
+                                    </div>
+                                  </div>
+                                  <div
+                                    style="display: flex; align-items: center"
+                                  >
+                                    <div class="d-flex check-availability">
+                                      <p class="price">
+                                        {{ item.pricePer500 }}¢
+                                      </p>
+                                      <p class="kwh">per kWh</p>
+                                    </div>
+                                    <button class="chk-avail-btn" type="button">
+                                      Check Availablity
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </tr>
+            </table>
+          </div>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

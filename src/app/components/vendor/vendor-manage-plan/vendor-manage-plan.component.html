@@ -1,0 +1,625 @@
+<div class="container-fluid start">
+  <div class="row">
+    <div class="col-12 top_bar">
+      <div class="d-flex justify-content-between">
+        <div class="left d-flex">
+    
+          <div class="search">
+            <img
+              src="../../../../assets/icons/Manage_plans/magnifying_glass.svg"
+              alt=""
+            />
+            <input
+              type="text"
+              placeholder="Search Here"
+              ngDefaultControl
+              [(ngModel)]="searchText"
+              
+            />
+          </div>
+  
+          <div>
+            <div class="dropdown d-flex justify-content-center" id="filter_dropdown">
+              <p>Filter:</p>
+              <button
+                class="btn dropdown-toggle"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                
+              >
+                {{this.listOptActive}}
+                <img
+                  src="../../../../assets/icons/Manage_plans/down_arrow_grey.svg"
+                  alt=""
+                />
+              </button>
+              <ul class="dropdown-menu"   >
+                <li *ngFor="let litsOption of checkBoxlist">
+                  <!-- checkbox list appear -->
+                  <a class="dropdown-item"
+                   >
+                    <div class="form-check">
+                      <input
+                    #plan
+                      class="form-check-input"
+                      type="checkbox"
+                      id="flexCheckDefault"
+                      (change)="sortFilter($event, plan.value)"
+                      [value]="litsOption"
+                    />
+                    {{litsOption}}
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="right">
+          <div
+            class="btn-toolbar"
+            role="toolbar"
+            aria-label="Toolbar with button groups"
+          >
+            <div
+              class="btn-group me-2 dropdown"
+              role="group"
+              aria-label="First group"
+            >
+              <div class="dropdown">
+                <button
+                  class="btn dropdown-toggle d-flex download"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <img
+                    src="../../../../assets/icons/Manage_plans/download_arrow.svg"
+                    alt="download_arrow"
+                  />
+                  <p>Download</p>
+                  <img
+                    src="../../../../assets/icons/Manage_plans/down_arrow_blue.svg"
+                    alt=""
+                  />
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item" (click)="downloadCSV()"
+                      >Sample CSV Template</a
+                    >
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">All Uploaded Plans</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item logout">Active Plans</a>
+                  </li>
+                </ul>
+              </div>
+
+              <div
+                class="btn-group me-2"
+                role="group"
+                aria-label="Second group"
+              >
+                <button type="button" class="btn d-flex upload_csv" data-bs-toggle="modal" data-bs-target="#uploadCsvModal">
+                  <img
+                    src="../../../../assets/icons/Manage_plans/upload_csv.svg"
+                    alt=""
+                  />
+                  <p>Upload CSV</p>
+                </button>
+                <!-- uploadCSV modal starts here -->
+                <div class="modal fade" id="uploadCsvModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      
+                      <div class="row upload_csv_header">
+                        <div class="col-12 d-flex justify-content-between">
+                          <div class="d-flex justify-content-center">
+                            <div class="d-flex justify-content-center">
+                              <img src="../../../../assets/icons/Manage_plans/upload_csv_blue.svg" alt="">
+                            </div>
+                            <div class="header_left_text d-flex justify-content-center">
+                              <p>Upload CSV</p>
+                            </div>
+                          </div>
+                          <div>
+                            <button type="button" data-bs-dismiss="modal" aria-label="close" class="close_button" (click)="removeFiles($event)"><img src="../../../../assets/icons/Manage_plans/close_button.svg" alt=""></button>
+                          </div>
+                        </div>
+                      </div>
+                
+                      <div class="row upload_csv_body">
+                        <div class="col-12 d-flex justify-content-center ">
+                          <div class="dropzone" DropZone (onFileDropped)="droppedFiles($event)">
+                            <div class="container text-center">
+                              <div class="drag_drop">
+                                <img src="../../../../assets/icons/Manage_plans/drag_and_drop_cloud.svg" alt="">
+                                <p>Drag and drop here<br>or click to select a file from your computer</p>
+                              </div>
+                              <div class="browse_button">
+                                <button (click)="onSelectFile()" type="button">Browse from your computer</button>
+                                <input id="file-input" type="file" accept=".csv" (change)="onFileSelected($event)">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row upload_csv_text">
+                        <div class="col-12 d-flex">
+                          <p><strong>NOTE:</strong> If the plan already exists then it'll update its details</p>
+                        </div>
+                      </div>
+
+                      <div class="row upload_csv_progress" *ngIf="fileList">
+                        <div class=" col-12 d-flex justify-content-between">
+                          <div class="d-flex">
+                            <img src="../../../../assets/icons/Manage_plans/csv_upload_file.svg" alt="">
+                          </div>
+                          <div class="file_name">
+                            <p>{{uploadFile?.name}}</p>
+                            <div class="progress" id="progress-bar" style="height: 3px;">
+                              <div class="progress-bar" role="progressbar" [style.width]="progress + '%'" [attr.aria-valuenow]="progress" aria-valuemin="0" aria-valuemax="100">
+                                <!-- {{progress}}% -->
+                              </div>
+                           </div>
+                           
+                          </div>
+                          <div class="progress_right">
+                            <button (click)="removeFiles($event)">
+                              <img src="../../../../assets/icons/Manage_plans/close_red.svg" alt="">
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                                      
+                      <div class="row upload_csv_footer">
+                        <div class="col-12 d-flex justify-content-end">
+                          <button type="button" class="button_cancel" id="upload_csv_modal_buttons" data-bs-dismiss="modal" (click)="removeFiles($event)">Cancel</button>
+                          <button type="button" class="button_upload" id="upload_csv_modal_buttons" (click)="onUpload()" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#successModal">Upload</button>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>                
+                <!-- uploadCSV modal ends here -->
+              </div>
+              <div class="btn-group" role="group" aria-label="Third group">
+                <button type="button" class="btn d-flex publish" data-bs-toggle="modal" data-bs-target="#publishModal" (click)="publish_plan()">
+                  <img
+                    src="../../../../assets/icons/Manage_plans/publish_white.svg"
+                    alt=""
+                  />
+                  <p>Publish</p>
+                </button>
+                <!-- publish modal starts here -->
+                <div class="modal fade" id="publishModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" *ngIf="isEnabled">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="container-fluid">
+                        <div class="row">
+                          <div class="d-flex justify-content-end publih_modal_header">
+                            <button type="button" data-bs-dismiss="modal" aria-label="close" class="close_button"><img src="../../../../assets/icons/Manage_plans/close_button.svg" alt=""></button>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="d-flex publih_modal_footer">
+                            <div class="alert_logo">
+                              <img src="../../../../assets/icons/Manage_plans/alert.svg" alt="">
+                            </div>
+                            <div style="width: max-content;">
+                              <p class="publish_modal_heading">No Plan Selected</p>
+                              <p class="publish_modal_text">Please select the required plan(s) from the list to publish</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- publish modal ends here -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <table *ngIf="(planList | filter: searchText).length > 0; ">
+      <tr class="heading">
+        <th>
+          <input type="checkbox" />
+        </th>
+        <th>Plan Name</th>
+        <!-- <th>is Live</th> -->
+        <th>#ID</th>
+        <th>Price (per 500 kWh)</th>
+        <th>Price (per 1000 kWh)</th>
+        <th>Price (per 1500 kWh)</th>
+        <th>Term Length</th>
+        <th>Monthly Charges</th>
+        <th>Early Termination Fee</th>
+        <th>Green Energy</th>
+      </tr>
+
+      <tr
+        *ngFor="
+          let filteredPlanLists of filteredPlanList
+            | filter: searchText
+            | paginate
+              : {
+                  itemsPerPage: itemsPerPage,
+                  currentPage: page,
+                  totalItems: totalLength
+                }
+        "
+        class="data"
+      >
+        <td>
+          <input type="checkbox" (click)="submit($event, filteredPlanLists.planId, filteredPlanLists.publishedStatus)" [(ngModel)]="filteredPlanLists.isManagePlanChecked"/>
+        </td>
+        <td>
+          <p class="plan_name" data-bs-toggle="modal" data-bs-target="#editPlan" (click)="editPlan(filteredPlanLists)">{{ filteredPlanLists.planKey }}</p>
+          <div class="modal fade" id="editPlan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="container-fluid">
+                        <div class="row p-3 pb-2">
+                            <div class="d-flex justify-content-between">
+                                <div class="d-flex justify-content-center align-items-center edit_modal_header_text">
+                                    <p>Plan Information</p>
+                                </div>
+                                <div>
+                                  <button type="button" class="edit_modal_header_buttons edit_modal_white_button" data-bs-toggle="modal" data-bs-target="#cancelEditPlanModal" data-bs-dismiss="modal">Cancel</button>
+                                  <button type="button" class="edit_modal_header_buttons edit_modal_blue_button" (click)="toggleEditable()" *ngIf="!isEditable">Edit</button>
+                                  <button type="button" class="edit_modal_header_buttons edit_modal_blue_button" (click)="toggleEditable(); savePlan()" *ngIf="isEditable" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#planEdited">Save</button>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <hr class="mb-2 mx-3">
+                        <div class="row mx-3">
+                            <div class="edit_modal_outer_heading">
+                                <p>Plan Info</p>
+                            </div>
+                        </div>
+                        <div class="row edit_modal_margins mt-4">
+                            <div class="edit_modal_inner_heading">
+                                <p>Plan Details:</p>
+                            </div>
+                        </div>
+                        <div class="row edit_modal_margins">
+                            <div class="col-2">
+                                <p class="edit_modal_field_name mb-1">Plan ID</p>
+                                <input readonly type="text" value="{{copiedDetails.planId}}" class="edit_modal_input_field" id="planId">
+                            </div>
+                            <div class="col-6">
+                                <p class="edit_modal_field_name mb-1">Plan Name</p>
+                                <input type="text" [(ngModel)]="copiedDetails.planKey" class="edit_modal_input_field" [disabled]="!isEditable">
+                            </div>
+                            <div class="col-2">
+                                <p class="edit_modal_field_name mb-1">Usage</p>
+                                <input type="text" class="edit_modal_input_field" [disabled]="!isEditable">
+                            </div>
+                            <div class="col-2">
+                                <p class="edit_modal_field_name mb-1">Term Length</p>
+                                <div class="d-flex">
+                                  <input type="text" [(ngModel)]="copiedDetails.termLength" class="edit_modal_input_field" [disabled]="!isEditable">
+                                  <span class="symbols months-text">Months</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4 edit_modal_margins">
+                            <div class="edit_modal_inner_heading">
+                                <p>Plan Price:</p>
+                            </div>
+                        </div>
+                        <div class="row edit_modal_margins"> 
+                            <div class="col-3">
+                                <p class="edit_modal_field_name mb-1">Plan Price</p>
+                                <input type="text" class="edit_modal_input_field" [disabled]="!isEditable">
+                            </div>
+                            <div class="col-3">
+                                <p class="edit_modal_field_name mb-1">Monthly Charge</p>
+                                <input type="text" class="edit_modal_input_field" [disabled]="!isEditable">
+                            </div>
+                            <div class="col-3">
+                                <p class="edit_modal_field_name mb-1">Early Termination Fee</p>
+                                <div class="d-flex">
+                                  <span class="symbols dollar-symbol">$</span>
+                                  <input type="text" [(ngModel)]="copiedDetails.earlyTerminationFee" class="edit_modal_input_field" [disabled]="!isEditable">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row edit_modal_margins mt-4">
+                            <div class="edit_modal_inner_heading">
+                                <p>Other Details:</p>
+                            </div>
+                        </div>
+                        <div class="row mb-4 edit_modal_margins">
+                          <div class="col-3">
+                              <p class="edit_modal_field_name" style="margin-bottom: 14px;">is Locked Rate?</p>
+                              <!-- <input type="text" [(ngModel)]="copiedDetails.isFixed" class="edit_modal_input_field" [disabled]="!isEditable"> -->
+                              <div class="form-check form-check-inline edit_modal_checkbox d-flex justify-content-start">
+                                <input class="form-check-input" type="checkbox" [(ngModel)]="copiedDetails.isFixed" [checked]="filteredPlanLists.isFixed" [disabled]="!isEditable">
+                            </div>
+                          </div>
+                            <div class="col-3">
+                                <p class="edit_modal_field_name mb-1">Green Energy</p>
+                                <div class="d-flex">
+                                  <input type="text" [(ngModel)]="copiedDetails.renewalPercentage" class="edit_modal_input_field" [disabled]="!isEditable" max="100" (input)="enforceMaxValue($event)">
+                                  <span class="symbols percentage-symbol">%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mx-3">
+                            <div class="edit_modal_outer_heading">
+                                <p>Additional Info</p>
+                            </div>
+                        </div>
+                        <div class="row edit_modal_margins mt-4">
+                            <div class="col-12">
+                                <p class="edit_modal_field_name mb-1">Product Description:</p>
+                                <input type="text" [(ngModel)]="copiedDetails.description" class="edit_modal_input_field" [disabled]="!isEditable">
+                            </div>
+                            <div class="col-12 mt-4">
+                                <p class="edit_modal_field_name mb-1">Product Information:</p>
+                                <input type="text" [(ngModel)]="copiedDetails.planInfoDescription" class="edit_modal_input_field" [disabled]="!isEditable">
+                            </div>
+                        </div>
+                        <div class="row edit_modal_margins mt-4">
+                            <div class="edit_modal_inner_heading">
+                                <p>Other Details:</p>
+                            </div>
+                        </div>
+                        <div class="mb-4 edit_modal_margins">
+                            <div class="form-check form-check-inline edit_modal_checkbox mx-3">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [(ngModel)]="copiedDetails.isHiddenFee" [checked]="filteredPlanLists.isHiddenFee" [disabled]="!isEditable">
+                                <label class="form-check-label edit_modal_field_name" for="inlineCheckbox1">
+                                    <p class="mb-0 mt-1">Hidden Fee</p>
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline edit_modal_checkbox mx-3">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" [(ngModel)]="copiedDetails.isDeliveryCharges" [checked]="filteredPlanLists.isDeliveryCharges" [disabled]="!isEditable">
+                                <label class="form-check-label edit_modal_field_name" for="inlineCheckbox2">
+                                    <p class="mb-0 mt-1">Free Delivery</p>
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline edit_modal_checkbox mx-3">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox3" [(ngModel)]="copiedDetails.isDiscount" [checked]="filteredPlanLists.isDiscount" [disabled]="!isEditable">
+                                <label class="form-check-label edit_modal_field_name" for="inlineCheckbox3">
+                                    <p class="mb-0 mt-1">Discount Included</p>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row mx-3">
+                            <div class="mb-3 edit_modal_outer_heading">
+                                <p>Document</p>
+                            </div>
+                        </div>
+                        <div class="row edit_modal_margins">
+                            <div class="col-8 mb-3">
+                                <p class="edit_modal_field_name mb-1">Terms of Service</p>
+                                <input type="text" [(ngModel)]="copiedDetails.termsUrl" class="edit_modal_input_field" [disabled]="!isEditable">
+                            </div>
+                            <div class="col-8 mb-3">
+                                <p class="edit_modal_field_name mb-1">Fact Label</p>
+                                <input type="text" [(ngModel)]="copiedDetails.factsUrl" class="edit_modal_input_field" [disabled]="!isEditable">                                
+                            </div>
+                            <div class="col-8 mb-3">
+                                <p class="edit_modal_field_name mb-1">YRAC</p>
+                                <input type="text" [(ngModel)]="copiedDetails.yracUrl" class="edit_modal_input_field" [disabled]="!isEditable">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+
+          <div class="modal fade" id="planEdited" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="container-fluid">
+                  <div class="row success_modal_header">
+                    <div class="d-flex justify-content-end success_modal_header">
+                      <button type="button" data-bs-dismiss="modal" aria-label="close" class="close_button" (click)="cancel()"><img src="../../../../assets/icons/Manage_plans/close_button.svg" alt=""></button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="d-flex justify-content-center">
+                      <img src="../../../../assets/icons/Manage_plans/Success.svg" *ngIf="editPlanModal == true" alt="">
+                      <img src="../../../../assets/icons/Manage_plans/Failure.svg" *ngIf="editPlanModal == false" alt="">
+                    </div>
+                  </div>
+                  <div class="row success_message">
+                    <p class="text-center success" *ngIf="editPlanModal == true">Plan Updated</p>
+                    <p class="text-center failure" *ngIf="editPlanModal == false">Plan Not Updated</p>
+          
+                    <p class="mb-0 text-center file_details" *ngIf="editPlanModal == true">Your "{{copiedDetails.planKey}}" changes updated sucessfully</p>
+                    <p class="mb-0 text-center file_details" *ngIf="editPlanModal == false">We had trouble updating your plan. Please try again</p>
+                  </div>
+                  <div class="row success_modal_footer">
+                    <div class="d-flex justify-content-center">
+                      <button type="button" class="rollback" data-bs-dismiss="modal" (click)="updatePlan()"  *ngIf="editPlanModal == true">
+                        Go to Manage Plans
+                      </button>
+                      <button type="button" class="rollback" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#editPlan" *ngIf="editPlanModal == false">Edit Again</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal fade" id="cancelEditPlanModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="container-fluid">
+                  <div class="row success_modal_header">
+                    <div class="d-flex justify-content-end success_modal_header">
+                      <button type="button" data-bs-dismiss="modal" aria-label="close" class="close_button" (click)="cancel()">
+                        <img src="../../../../assets/icons/Manage_plans/close_button.svg" alt="">
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="d-flex justify-content-center">
+                      <img src="../../../../assets/icons/Manage_plans/discard_changes.svg" alt="">
+                    </div>
+                  </div>
+                  <div class="row success_message">
+                    <p class="text-center failure">Discard Changes?</p>
+                    <p class="mb-0 text-center file_details">Are you sure you want to discard changes.</p>
+                  </div>
+                  <div class="row success_modal_footer">
+                    <div class="d-flex justify-content-center">
+                      <button type="button" class="discard_changes discard_changes_rollback" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#editPlan">No, Continue</button>
+                      <button type="button" class="border-0 ms-3 discard_changes discard_changes_continue" data-bs-dismiss="modal" (click)="cancel()">
+                        Yes, don't save
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p *ngIf="filteredPlanLists.publishedStatus" class="mb-2 status live">Live</p>
+          <p *ngIf="!filteredPlanLists.publishedStatus" class="mb-2 status pending">Pending</p>
+          <!-- <div>
+            <p>{{ filteredPlanLists.planKey }}</p>
+            <p *ngIf="filteredPlanLists.publishedStatus" class="status live">Live</p>
+            <p *ngIf="!filteredPlanLists.publishedStatus" class="status pending">Pending</p>
+          </div> -->
+          
+        </td>
+
+        <td class="align_center">#{{ filteredPlanLists.puc }}</td>
+        <td class="align_end">{{ filteredPlanLists.pricePer500 }}</td>
+        <td class="align_end">{{ filteredPlanLists.pricePer1000 }}</td>
+        <td class="align_end">{{ filteredPlanLists.pricePer2000 }}</td>
+        <td class="align_center">{{ filteredPlanLists.termLength }} Months</td>
+        <td class="align_end">$165.95</td>
+        <td class="align_end">
+          ${{ filteredPlanLists.earlyTerminationFee }}
+        </td>
+        <td class="align_center">{{ filteredPlanLists.renewalPercentage }}%</td>
+      </tr>
+    </table>
+
+    <div class="footer d-flex justify-content-between">
+      <div class="total_entries">
+        <p>Total Items: {{ filteredPlanList?.length }}</p>
+      </div>
+
+      <div class="footer_right d-flex">
+        <div class="text">
+          <p>Results per page</p>
+        </div>
+
+        <div class="dropdown d-flex" id="entries_per_page">
+          <button
+            class="btn dropdown-toggle d-flex"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            id="dropdown-button"
+          >
+            <p>{{ perPage[0] }}</p>
+            <img
+              src="../../../../assets/icons/Manage_plans/down_arrow_grey.svg"
+              alt=""
+            />
+          </button>
+          <ul class="dropdown-menu">
+            <li
+              *ngFor="let entries of perPage"
+              class="dropdown-item"
+              (click)="handleClick(entries)"
+            >
+              {{ entries }}
+            </li>
+          </ul>
+        </div>
+
+        <div class="pages">
+          <pagination-controls
+            (pageChange)="page = $event"
+            previousLabel="&lsaquo;"
+            nextLabel="&rsaquo;"
+            class="my-pagination"
+            [autoHide]="true"
+          ></pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="successModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="container-fluid" *ngIf="uploadFile">
+        <div class="row success_modal_header">
+          <div class="d-flex justify-content-end success_modal_header">
+            <button type="button" data-bs-dismiss="modal" aria-label="close" class="close_button" (click)="removeFiles($event)"><img src="../../../../assets/icons/Manage_plans/close_button.svg" alt=""></button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="d-flex justify-content-center">
+            <img src="../../../../assets/icons/Manage_plans/Success.svg" alt="" *ngIf="isSuccessful == 1">
+            <img src="../../../../assets/icons/Manage_plans/Failure.svg" alt="" *ngIf="isSuccessful == 0">
+          </div>
+        </div>
+        <div class="row success_message">
+          <p class="text-center success" *ngIf="isSuccessful == 1">Success !</p>
+          <p class="text-center failure" *ngIf="isSuccessful == 0">File Not Uploaded !</p>
+
+          <p class="mb-0 text-center file_details" *ngIf="isSuccessful == 1">Your CSV file has been <br> successfully uploaded.</p>
+          <p class="mb-0 text-center file_details" *ngIf="isSuccessful == 0">We had trouble uploading your CSV file. <br> To continue, you need to upload your file.</p>
+        </div>
+        <div class="row success_modal_footer">
+          <div class="d-flex justify-content-center">
+            <button type="button" class="rollback" *ngIf="isSuccessful == 1" data-bs-dismiss="modal" (click)="removeFiles($event)">
+              Go to Manage Plans
+            </button>
+            <button type="button" class="rollback" *ngIf="isSuccessful == 0" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#uploadCsvModal" (click)="removeFiles($event)">
+              Upload File
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="container-fluid" *ngIf="!uploadFile">
+        <div class="row">
+          <div class="d-flex justify-content-end publih_modal_header">
+            <button type="button" data-bs-dismiss="modal" aria-label="close" class="close_button" (click)="removeFiles($event)"><img src="../../../../assets/icons/Manage_plans/close_button.svg" alt=""></button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="d-flex publih_modal_footer">
+            <div class="alert_logo">
+              <img src="../../../../assets/icons/Manage_plans/alert.svg" alt="">
+            </div>
+            <div style="width: max-content;">
+              <p class="publish_modal_heading">No File Selected</p>
+              <p class="publish_modal_text">Please select a CSV file to upload plan(s)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>

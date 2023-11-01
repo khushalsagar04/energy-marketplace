@@ -1,0 +1,96 @@
+<div class="sidenav d-flex flex-column flex-shrink-0 p-4">
+  <ul class="nav nav-pills flex-column mb-auto">
+    <li class="nav-item">
+      <a class="nav-link" aria-current="page">
+        <div class="title-text">
+          <p>Zipcode</p>
+        </div>
+        <div class="search-bar">
+          <input
+            type="text"
+            [(ngModel)]="pinCode"
+            (keydown.enter)="getPlanDetails()"
+          />
+        </div>
+      </a>
+    </li>
+    <li>
+      <svg class="bi me-2" width="16" height="16"></svg>
+      <table>
+        <tr>
+          <td class="title-text">Filter</td>
+          <td class="sub-title-text" (click)="clearAllCheckbox()">Clear All</td>
+        </tr>
+      </table>
+
+      <!-- kWh Filter -->
+      <table class="tbl-2">
+        <tr>
+          <th class="title-text-2">Usage</th>
+          <th class="sub-title-text-2" class="form-check-input">Clear</th>
+        </tr>
+        <tr>
+          <td class="title-text-2">Show All</td>
+          <td class="sub-title-text-2">
+            <input class="form-check-input" type="checkbox" />
+          </td>
+        </tr>
+        <tr>
+          <td class="title-text-2">500 kWh</td>
+          <td class="sub-title-text-2">
+            <input class="form-check-input" type="checkbox" />
+          </td>
+        </tr>
+        <tr>
+          <td class="title-text-2">2000 kWh</td>
+          <td class="sub-title-text-2"><input type="checkbox" /></td>
+        </tr>
+        <tr>
+          <td class="title-text-2">1000 kWh</td>
+          <td class="sub-title-text-2"><input type="checkbox" /></td>
+        </tr>
+      </table>
+
+      <!-- Term filter -->
+      <table class="tbl-2">
+        <tr>
+          <th class="title-text-2">Term Length</th>
+          <th class="sub-title-text-2" (click)="clearTermLength()">Clear</th>
+        </tr>
+        <tr>
+          <td class="title-text-2">Show All</td>
+          <td class="sub-title-text-2">
+            <input class="form-check-input" type="checkbox" />
+          </td>
+        </tr>
+        <tr *ngFor="let termLength of termLength">
+          <td class="title-text-2">{{ termLength }} Months</td>
+          <td class="sub-title-text-2">
+            <input class="form-check-input" type="checkbox" />
+          </td>
+        </tr>
+      </table>
+
+      <!-- Provider Filter -->
+      <table class="tbl-2">
+        <tr>
+          <th class="title-text-2">Provider</th>
+          <th class="sub-title-text-2" (click)="clearProviderName()">Clear</th>
+        </tr>
+        <tr>
+          <td class="title-text-2">Show All</td>
+          <td class="sub-title-text-2">
+            <input class="form-check-input" type="checkbox" />
+          </td>
+        </tr>
+        <!-- Provider list -->
+        <tr *ngFor="let providerName of providerNames">
+          <td class="title-text-2">{{ providerName }}</td>
+          <td class="sub-title-text-2">
+            <input class="form-check-input" type="checkbox" />
+          </td>
+        </tr>
+      </table>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,117 @@
+<div class="dashboard">
+  <div class="img">
+    <div class="outer-div">
+      <div class="inner-div">
+        <div class="text1">
+          <p class="top-text">
+            Find the right <br />
+
+            energy plan for you
+          </p>
+        </div>
+
+        <div class="text2">
+          <p class="middle-text">
+            We will help you by comparing all the retailers
+          </p>
+        </div>
+
+        <div class="text3">
+          <p class="bottom-text">Where are you located?</p>
+        </div>
+
+        <div class="search-bar">
+          <img src="../../../assets/icons/Path_34175path_.svg" alt="" />
+
+          <input
+            type="text"
+            placeholder="Enter Zip Code"
+            [(ngModel)]="pinCode"
+            (keydown.enter)="getValue(pinCode)"
+          />
+        </div>
+
+        <div>
+          <button
+            (click)="getValue(pinCode)"
+            type="button"
+            class="btn search-btn"
+          >
+            Get Started
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row footer">
+    <div class="col-sm-4">
+      <div class="inner-section">
+        <div class="icon">
+          <img src="../../../assets/image/Location.svg" alt="location-icon" />
+        </div>
+
+        <div class="text">
+          <div class="bold-text">
+            <h3>Enter Zip Code</h3>
+          </div>
+
+          <div class="info">
+            <p class="inner-text">
+              Enter your location for available <br />
+              plans in your neighbourhood
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="inner-section">
+        <div class="icon">
+          <img
+            src="../../../assets/image/Compare.svg"
+            alt="reverse-arrow-icon"
+          />
+        </div>
+
+        <div class="text">
+          <div class="bold-text">
+            <h3>Compare Plans</h3>
+          </div>
+
+          <div class="info">
+            <p class="inner-text">
+              Compare plans from a range of <br />
+              Utility Providers
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="inner-section">
+        <div class="icon">
+          <img src="../../../assets/image/Save.svg" alt="piggy-bank-icon" />
+        </div>
+
+        <div class="text">
+          <div class="bold-text">
+            <h3>Control Costs</h3>
+          </div>
+
+          <div class="info">
+            <p class="inner-text">
+              Select the best plan as per your <br />
+              needs and control your costs
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-blog-cards></app-blog-cards>

@@ -1,0 +1,28 @@
+<h1 class="recent-articles">Recent <span>Articles</span></h1>
+
+<!-- repeat element 3 times using ng-for -->
+<div class="blog-card-container">
+  <div class="card-wrapper" *ngFor="let blog of blogData">
+    <div class="card">
+      <img src="{{ blog.image }}" alt="Blog Image" />
+      <div class="card-content">
+        <h2 class="card-title">{{ blog.title }}</h2>
+        <div class="card-meta">
+          <img
+            src="{{ blog.authorImage }}"
+            alt="User Image"
+          />
+          <div>
+            <span class="card-author">{{ blog.author }}</span>
+            <br />
+            <span class="card-date">{{ blog.createdOn }}</span>
+            <span class="card-ellipse">&#8226;</span>
+            <span class="card-readtime">{{ blog.timeRead }} min read</span>
+          </div>
+        </div>
+        <p class="card-text" [innerHTML]="blog.description"></p>
+        <a href="#" class="read-more-btn">Read more</a>
+      </div>
+    </div>
+  </div>
+</div>

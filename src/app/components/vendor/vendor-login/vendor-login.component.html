@@ -1,0 +1,63 @@
+<div class="login-box">
+  <span class="image-box">
+    <img
+      src="../../../../assets/logos/marketplace/CG-Logomark 1.svg"
+      alt="CG Infinity"
+    />
+  </span>
+  <span>
+    <img
+      src="../../../../assets/logos/marketplace/Frame 7575blu_logo.svg"
+      alt="CG Infinity"
+    />
+  </span>
+
+  <span>
+    <img
+      src="../../../../assets/logos/marketplace/Energy_Market_Placeblu_logo.svg"
+      alt="CG Infinity"
+    />
+  </span>
+  <h2>Login to your account</h2>
+
+  <form
+    name="form"
+    (ngSubmit)="f.form.valid && onSubmit()"
+    #f="ngForm"
+    novalidate
+  >
+    <div class="user-box">
+      <p>Email ID</p>
+      <input
+        type="text"
+        class="form-control"
+        name="email"
+        [(ngModel)]="form.email"
+        #email="ngModel"
+        required
+        placeholder="Enter your email ID"
+        [ngClass]="{ 'is-invalid': email.invalid && email.touched }"
+      />
+      <p>Password</p>
+      <input
+        type="password"
+        placeholder="Enter password"
+        class="form-control"
+        name="password"
+        [(ngModel)]="form.password"
+        #password="ngModel"
+        required
+        minlength="6"
+        [ngClass]="{ 'is-invalid': password.invalid && password.touched }"
+      />
+      <input class="btn" type="submit" value="Login" />
+      <div
+        class="alert alert-danger"
+        *ngIf="f.submitted && isLoginFailed"
+        role="alert"
+      >
+        Invalid Email or Password
+      </div>
+    </div>
+  </form>
+</div>

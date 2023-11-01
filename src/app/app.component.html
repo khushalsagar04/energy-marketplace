@@ -1,0 +1,21 @@
+<table class="tg" style="width: 100%">
+  <thead>
+    <tr>
+      <th *ngIf="!_router.url.startsWith('/vendor')" vAlign="top">
+        <app-header></app-header>
+      </th>
+      <th *ngIf="_router.url.startsWith('/vendor/login')" vAlign="top"></th>
+      <th *ngIf="_router.url.startsWith('/vendor')" vAlign="top">
+        <app-vendor-header></app-vendor-header>
+      </th>
+      <!-- remove th if route starts with vendor/login -->
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <router-outlet></router-outlet>
+      </td>
+    </tr>
+  </tbody>
+</table>

@@ -1,0 +1,298 @@
+
+
+<div class="container-sm" style="margin-top: 1rem">
+  <table>
+    <tr *ngFor="let item of data; let i = index">
+      <div class="container-fluid p-1 card-style">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-md-3 p-3" style="padding-left: 2rem !important">
+              <img
+                alt="Image Preview"
+                src="{{ item.providerImageUrl }}"
+                class="img-thumbnail p-3"
+              />
+            </div>
+            <div class="col-8 m-0">
+              <div class="d-flex flex-column top-text">
+                <div class="text-puct m-0">
+                  <p>PUCT# {{ item.puc }}</p>
+                </div>
+                <div class="text-providerName">
+                  <p>{{ item.providerName }}</p>
+                </div>
+                <blockquote class="blockquote">
+                  <p class="mb-0 text-description">
+                    {{ item.description }}
+                  </p>
+                </blockquote>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex flex-row row-component" style="width: max">
+            <div class="p-4 flex-fill text-center">
+              <p class="row-component-h">{{ item.termLength }} Month</p>
+              <p class="row-component-b">Term Length</p>
+            </div>
+            <div class="divider"></div>
+            <div class="p-4 flex-fill text-center">
+              <p class="row-component-h">${{ item.pricePer1000 }}</p>
+              <p class="row-component-b">1000 kWh usage*</p>
+            </div>
+            <div class="divider"></div>
+
+            <div class="p-4 flex-fill text-center">
+              <p class="row-component-h">${{ item.earlyTerminationFee }}</p>
+              <p class="row-component-b">Early Termination Fee</p>
+            </div>
+            <div class="divider"></div>
+
+            <div class="p-4 flex-fill text-center">
+              <p>
+                <img
+                  class="icon"
+                  src="../../../assets/icons/Vectorlock_icon.svg"
+                  alt="lock_image"
+                />
+                {{ item.termType }} Rate
+              </p>
+              <p>
+                <img
+                  class="icon"
+                  src="../../../assets/icons/Vectorgreen_leaf.svg"
+                />
+                {{ item.renewalPercentage }}% Green Energy
+              </p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="view-details">
+                <div class="accordion accordion-flush" id="accordionExample">
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                      <div class="container-fluid">
+                        <div class="row">
+                          <div class="d-flex justify-content-between">
+                            <div>
+                              <button
+                                class="accordion-button collapsed click"
+                                type="button"
+                                (click)="toggleCollapsed(i, item)"
+                              >
+                                View Plan Details
+                                <div class="arrow">
+                                  <img
+                                    src="../../../assets/icons/down-arrow.svg"
+                                    alt=""
+                                  />
+                                </div>
+                              </button>
+                            </div>
+                            <div style="display: flex; align-items: center">
+                              <div
+                                class="d-flex"
+                                style="margin-right: 1rem; align-items: center"
+                              >
+                                <p
+                                  style="
+                                    font-weight: 700;
+                                    font-size: 28px;
+                                    line-height: 34px;
+                                    color: #28519e;
+                                    margin-bottom: 0;
+                                  "
+                                >
+                                  {{ item.pricePer500 }}¢
+                                </p>
+                                <p
+                                  style="
+                                    font-weight: 700;
+                                    font-size: 16px;
+                                    line-height: 19px;
+                                    color: #28519e;
+                                    margin-bottom: 0;
+                                  "
+                                >
+                                  per kWh
+                                </p>
+                              </div>
+                              <button
+                                type="button"
+                                style="
+                                  margin-right: 0.5rem;
+                                  font-weight: 700;
+                                  font-size: 16px;
+                                  line-height: 19px;
+                                  padding: 10px;
+                                  background-color: #ffb81c;
+                                  border: none;
+                                  border-radius: 4px;
+                                "
+                              >
+                                Check Availablity
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </h2>
+                    <!-- <div *ngIf="testinghiding === i && viewDetailsOpen"> -->
+                    <div *ngIf="item.show">
+                      <div class="accordion-body">
+                        <div class="container-fluid footer">
+                          <div class="row line1">
+                            <div>
+                              <p>Plan Details</p>
+                            </div>
+                          </div>
+
+                          <div class="row line2">
+                            <div>
+                              <p><strong>Plan Information:</strong></p>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="perks">
+                              <div class="perks-info">
+                                <div class="icon">
+                                  <img
+                                    src="../../../assets/icons/hidden_fee.svg"
+                                    alt=""
+                                  />
+                                </div>
+                                <div class="text">
+                                  <p>No Hidden Fees</p>
+                                </div>
+                              </div>
+
+                              <div class="perks-info">
+                                <div class="icon">
+                                  <img
+                                    src="../../../assets/icons/truck-delivery.svg"
+                                    alt=""
+                                  />
+                                </div>
+                                <div class="text">
+                                  <p>No Delivery Charges</p>
+                                </div>
+                              </div>
+
+                              <div class="perks-info">
+                                <div class="icon">
+                                  <img
+                                    src="../../../assets/icons/discount.svg"
+                                    alt=""
+                                  />
+                                </div>
+                                <div class="text">
+                                  <p>Discounts Included</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="row line-3">
+                            <ul>
+                              <li class="info">
+                                Easy to understand bill, rate protection, and no
+                                monthly fees! $129 Refundable Deposit Required!
+                              </li>
+                              <li class="info">
+                                The rates shown below already include all fees,
+                                discounts, and CenterPoint delivery charges.
+                              </li>
+                            </ul>
+                          </div>
+
+                          <div class="row line-4">
+                            <div>
+                              <p><strong>Plan Documents:</strong></p>
+                            </div>
+                          </div>
+
+                          <div class="row line-5">
+                            <div class="downloadable-files">
+                              <div class="file">
+                                <button type="button" class="newFile">
+                                  <div class="icon">
+                                    <img
+                                      src="../../../assets/icons/pdf-icon.svg"
+                                      alt=""
+                                    />
+                                  </div>
+                                  <div class="text">
+                                    <p>Electricity Fact Label</p>
+                                  </div>
+                                  <div class="icon">
+                                    <img
+                                      src="../../../assets/icons/download_icon.svg"
+                                      alt=""
+                                    />
+                                  </div>
+                                </button>
+                              </div>
+
+                              <div class="file">
+                                <button type="button" class="newFile">
+                                  <div class="icon">
+                                    <img
+                                      src="../../../assets/icons/pdf-icon.svg"
+                                      alt=""
+                                    />
+                                  </div>
+                                  <div class="text">
+                                    <p>Term of Service</p>
+                                  </div>
+                                  <div class="icon">
+                                    <img
+                                      src="../../../assets/icons/download_icon.svg"
+                                      alt=""
+                                    />
+                                  </div>
+                                </button>
+                              </div>
+
+                              <div class="file">
+                                <button type="button" class="newFile">
+                                  <div class="icon">
+                                    <img
+                                      src="../../../assets/icons/pdf-icon.svg"
+                                      alt=""
+                                    />
+                                  </div>
+                                  <div class="text">
+                                    <p>YRAC</p>
+                                  </div>
+                                  <div class="icon">
+                                    <img
+                                      src="../../../assets/icons/download_icon.svg"
+                                      alt=""
+                                    />
+                                  </div>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="right-side">
+                <div class="price"></div>
+                <div class="purchase"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </tr>
+  </table>
+</div>
+
+<!-- My Code -->

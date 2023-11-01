@@ -1,0 +1,344 @@
+<div class="d-grid top-grid-container align-items-stretch">
+  <div class="d-flex justify-content-between">
+    <div class="d-flex align-items-center">
+      <p class="mb-0 welcome_text">Welcome, {{userMail}}</p>
+    </div>
+    <div>
+      <div class="d-flex justify-content-end">
+        <p class="mb-1"><span class="login login_text">Last Login</span><span class="login login_time">: 27-03-2023, 01:30 PM</span></p>
+      </div>
+      <div class="d-flex justify-content-end">
+        <p class="mb-0 login login_time">(GMT-06:00) Central Time (US & Canada)</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="d-grid grid-container">
+  <div class="item1">
+    <button type="button" class="d-flex p-4 w-100 border-0 header_buttons blue_button" data-bs-toggle="modal" data-bs-target="#uploadCsvModal">
+      <img src="../../../../assets/icons/Manage_plans/upload_csv.svg" alt="" class="me-3 button_img">
+      <p class="mb-0">Upload CSV</p>
+    </button>
+  </div>
+  <div class="item2">
+    <button type="button" class="d-flex p-4 w-100 header_buttons white_button"(click)="downloadCSV()">
+      <img src="../../../../assets/icons/Manage_plans/download_arrow.svg" alt="" class="me-3 button_img">
+      <p class="mb-0">Download Sample CSV Template</p>
+    </button>
+  </div>
+  <div class="item3">
+    <button type="button" class="d-flex p-4 w-100 header_buttons white_button">
+      <img src="../../../../assets/icons/Manage_plans/download_arrow.svg" alt="" class="me-3 button_img">
+      <p class="mb-0">Download All Uploaded Plans</p>
+    </button>
+  </div>
+
+  <div class="item4">
+    <div class="plan_card">
+      <div class="d-flex ms-3">
+        <img src="../../../../assets/icons/Dashboard/electric_current.svg" alt="" class="me-2">
+        <p class="text mb-0 ms-1">Total Plans</p>
+      </div>
+      <div class="my-5">
+        <div class="d-flex justify-content-center">
+          <p class="total_plan_number">{{planList?.length}}</p>
+        </div>
+        <div class="d-flex justify-content-center">
+          <p class="text">Total Plans</p>
+        </div>
+      </div>
+      <div class="d-flex justify-content-between left_card_footer">
+        <p>Last Uploaded</p>
+        <p>05/02/2023</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="item5">
+    <div class="plan_card pb-3">
+      <div class="d-flex ms-3 mb-3">
+        <img src="../../../../assets/icons/Dashboard/plan_status.svg" alt="" class="me-2">
+        <p class="text mb-0 ms-1">Plan Status</p>
+      </div>
+      <div class="d-flex justify-content-center">
+        <canvas id="canvas"></canvas>
+      </div>
+      <div class="d-flex justify-content-center" style="margin-top: 28px; align-items: center;">
+        <div class="d-flex me-5">
+          <div style="height: 20px; width: 20px; background-color: #8AE460;"></div>
+          <p class="ms-2 me-3 plan_status">Active</p>
+          <p class="plan_count">{{activePlans}}</p>
+        </div>
+        <div class="d-flex">
+          <div style="height: 20px; width: 20px; background-color: #A4A3A7;"></div>
+          <p class="ms-2 me-3 plan_status">Inactive</p>
+          <p class="plan_count">{{inactivePlans}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="item6">
+    <div class="plan_card p-3">
+      <div class="d-flex justify-content-between">
+        <div class="d-flex">
+          <img src="../../../../assets/icons/Dashboard/plan_history.svg" alt="" class="me-2">
+          <p  class="text mb-0 ms-1">Plan Upload History</p>
+        </div>
+        <div>
+          <button type="button" class="border-0 d-flex show_all_button">
+            <p class="me-2">Show All</p>
+            <img src="../../../../assets/icons/Dashboard/right_arrow.svg" alt="">
+          </button>
+        </div>
+      </div>
+      <table class="w-100 right_card_table_heading">
+        <thead >
+          <tr class="">
+            <td class="table_text">File Name</td>
+            <td class="table_text float-end">Download</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="mb-4" *ngFor="let plan of planHistory">
+            <td>
+              <p class="mb-1 table_text">{{plan.planName}}</p>
+              <p  class="mb-0 plan_timing">{{plan.planDate}} {{plan.planTime}}</p>
+            </td>
+            <td>
+              <button type="button" class="float-end border-0 table_download_button">Download</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="item7 alignment">
+    <div class="plan_card p-3">
+      <div>
+        <div class="d-flex">
+          <img src="../../../../assets/icons/Dashboard/popular_plan.svg" alt="" class="me-2">
+          <p  class="text mb-0 ms-1">Top 5 Popular Plan</p>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-center mt-4">
+        <button class="border-0 p-2 bottom_buttons" (click)="togglePlans('week')" [ngClass]="{'blue_toggle': isBlue, 'grey_toggle' : !isBlue}">This Week</button>
+        <button class="border-0 p-2 bottom_buttons" (click)="togglePlans('month')" [ngClass]="{'grey_toggle': isBlue, 'blue_toggle' : !isBlue}">This Month</button>
+      </div>
+      <table class="w-100 mt-4 card_table_heading">
+        <thead>
+          <tr>
+            <td class="table_title table_text">Plan Name</td>
+            <td class="table_title table_text float-end">#Enrollment</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let plan of popularPlans">
+            <td class="pt-3 ps-2">
+              <p class="plan_details">{{plan.planName}}</p>
+            </td>
+            <td class="pt-3 pe-2">
+              <p class="float-end mb-1 enrollments">{{plan.enrollments}}</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="item8 alignment">
+    <div class="plan_card h-100 p-3">
+      <div>
+        <div class="d-flex">
+          <img src="../../../../assets/icons/Dashboard/special_offer.svg" alt="" class="me-2">
+          <p  class="text mb-0 ms-1">Special Offer</p>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-center mt-4">
+        <button class="border-0 p-2 bottom_buttons" (click)="toggleOffers('ongoing')" [ngClass]="{'blue_toggle': isOngoing, 'grey_toggle' : !isOngoing}">Ongoing</button>
+        <button class="border-0 p-2 bottom_buttons" (click)="toggleOffers('expired')" [ngClass]="{'grey_toggle': isOngoing, 'blue_toggle' : !isOngoing}">Expired</button>
+      </div>
+      <table class="w-100 mt-4 card_table_heading">
+        <thead>
+          <tr>
+            <td class="table_title table_text">Offers</td>
+            <td class="table_title table_text float-end">#Enrollment</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let plan of offers">
+            <td class="pt-3 ps-2">
+              <p class="plan_details">{{plan.offerName}}</p>
+            </td>
+            <td class="pt-3 pe-2">
+              <p class="float-end mb-1 enrollments">{{plan.enrollments}}</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="item9">
+    <div class="help_section">
+      <div class="help_text mb-4">
+        <p>Need Help? Contact Us</p>
+      </div>
+      <div class="d-flex mb-4" style="width: fit-content;">
+        <div class="me-3">
+          <img src="../../../../assets/icons/Dashboard/email.svg" alt="">
+        </div>
+        <div>
+          <p class="mb-2 contact_ways">Email</p>
+          <p class="mb-0 contact_info">example@example.com</p>
+        </div>
+      </div>
+      <div class="d-flex mt-2" style="width: fit-content;">
+        <div class="me-3">
+          <img src="../../../../assets/icons/Dashboard/phone.svg" alt="">
+        </div>
+        <div>
+          <p class="mb-2 contact_ways">Call</p>
+          <p class="mb-0 contact_info">098-987-6543</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- upload csv modal -->
+<div class="modal fade" id="uploadCsvModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      
+      <div class="row upload_csv_header">
+        <div class="col-12 d-flex justify-content-between">
+          <div class="d-flex justify-content-center">
+            <div class="d-flex justify-content-center">
+              <img src="../../../../assets/icons/Manage_plans/upload_csv_blue.svg" alt="">
+            </div>
+            <div class="header_left_text d-flex justify-content-center">
+              <p>Upload CSV</p>
+            </div>
+          </div>
+          <div>
+            <button type="button" data-bs-dismiss="modal" aria-label="close" class="close_button" (click)="removeFiles($event)"><img src="../../../../assets/icons/Manage_plans/close_button.svg" alt=""></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row upload_csv_body">
+        <div class="col-12 d-flex justify-content-center ">
+          <div class="dropzone" DropZone (onFileDropped)="droppedFiles($event)">
+            <div class="container text-center">
+              <div class="drag_drop">
+                <img src="../../../../assets/icons/Manage_plans/drag_and_drop_cloud.svg" alt="">
+                <p>Drag and drop here<br>or click to select a file from your computer</p>
+              </div>
+              <div class="browse_button">
+                <button (click)="onSelectFile()" type="button">Browse from your computer</button>
+                <input id="file-input" type="file" accept=".csv" (change)="onFileSelected($event)">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row upload_csv_text">
+        <div class="col-12 d-flex">
+          <p><strong>NOTE:</strong> If the plan already exists then it'll update its details</p>
+        </div>
+      </div>
+
+      <div class="row upload_csv_progress" *ngIf="fileList">
+        <div class=" col-12 d-flex justify-content-between">
+          <div class="d-flex">
+            <img src="../../../../assets/icons/Manage_plans/csv_upload_file.svg" alt="">
+          </div>
+          <div class="file_name">
+            <p>{{uploadFile?.name}}</p>
+            <div class="progress" id="progress-bar" style="height: 3px;">
+              <div class="progress-bar" role="progressbar" [style.width]="progress + '%'" [attr.aria-valuenow]="progress" aria-valuemin="0" aria-valuemax="100">
+                <!-- {{progress}}% -->
+              </div>
+           </div>
+           
+          </div>
+          <div class="progress_right">
+            <button (click)="removeFiles($event)">
+              <img src="../../../../assets/icons/Manage_plans/close_red.svg" alt="">
+            </button>
+          </div>
+        </div>
+      </div>
+                      
+      <div class="row upload_csv_footer">
+        <div class="col-12 d-flex justify-content-end">
+          <button type="button" class="button_cancel" id="upload_csv_modal_buttons" data-bs-dismiss="modal" (click)="removeFiles($event)">Cancel</button>
+          <button type="button" class="button_upload" id="upload_csv_modal_buttons" (click)="onUpload()" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#successModal">Upload</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="successModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="container-fluid" *ngIf="uploadFile">
+        <div class="row mt-2">
+          <div class="d-flex justify-content-end mt-2">
+            <button type="button" data-bs-dismiss="modal" aria-label="close" class="close_button" (click)="removeFiles($event)"><img src="../../../../assets/icons/Manage_plans/close_button.svg" alt=""></button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="d-flex justify-content-center">
+            <img src="../../../../assets/icons/Manage_plans/Success.svg" alt="" *ngIf="isSuccessful == 1">
+            <img src="../../../../assets/icons/Manage_plans/Failure.svg" alt="" *ngIf="isSuccessful == 0">
+          </div>
+        </div>
+        <div class="row mt-3 mb-4">
+          <p class="text-center success" *ngIf="isSuccessful == 1">Success !</p>
+          <p class="text-center failure" *ngIf="isSuccessful == 0">File Not Uploaded !</p>
+
+          <p class="mb-0 text-center file_details" *ngIf="isSuccessful == 1">Your CSV file "{{uploadFile.name}}" has been <br> successfully uploaded.</p>
+          <p class="mb-0 text-center file_details" *ngIf="isSuccessful == 0">We had trouble uploading your CSV file. <br> To continue, you need to upload your file.</p>
+        </div>
+        <div class="row success_modal_footer">
+          <div class="d-flex justify-content-center">
+            <button type="button" class="rollback" *ngIf="isSuccessful == 1" data-bs-dismiss="modal" (click)="removeFiles($event); getManagePlans()">
+              Go to Manage Plans
+            </button>
+            <button type="button" class="rollback" *ngIf="isSuccessful == 0" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#uploadCsvModal" (click)="removeFiles($event)">
+              Upload File
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="container-fluid" *ngIf="!uploadFile">
+        <div class="row">
+          <div class="d-flex justify-content-end publih_modal_header">
+            <button type="button" data-bs-dismiss="modal" aria-label="close" class="close_button" (click)="removeFiles($event)"><img src="../../../../assets/icons/Manage_plans/close_button.svg" alt=""></button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="d-flex publih_modal_footer">
+            <div class="alert_logo">
+              <img src="../../../../assets/icons/Manage_plans/alert.svg" alt="">
+            </div>
+            <div style="width: max-content;">
+              <p class="publish_modal_heading">No File Selected</p>
+              <p class="publish_modal_text">Please select a CSV file to upload plan(s)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
