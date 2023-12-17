@@ -1,3 +1,11 @@
+![1_HomePage](https://github.com/khushalsagar04/energy-marketplace/assets/63873590/a3d01bd2-f4fc-4223-9dbd-6b7729eee034)
+![2_energyPlansByZipCode](https://github.com/khushalsagar04/energy-marketplace/assets/63873590/a77ef37e-149b-44a7-ab60-37e61bd0c9f8)
+![3_Analytics](https://github.com/khushalsagar04/energy-marketplace/assets/63873590/bd677c3e-42c6-4ec4-bc50-f3fbe89fe086)
+![4_allEnergyPlans](https://github.com/khushalsagar04/energy-marketplace/assets/63873590/e6b3e348-2868-46ff-9b6d-28b752bef8be)
+![5_addNewEnergyPlan](https://github.com/khushalsagar04/energy-marketplace/assets/63873590/479aaa3d-fc6f-49e7-97e6-5a4f6a5ea658)
+![6_editEnergyPlan](https://github.com/khushalsagar04/energy-marketplace/assets/63873590/9441d0d3-5130-4d86-9a6e-e52384609383)
+
+
 # EnergyMarketplaceUi
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.0.
